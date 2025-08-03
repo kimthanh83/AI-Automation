@@ -1,0 +1,742 @@
+{
+  "name": "yellowpage",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        384,
+        96
+      ],
+      "id": "112bf2c5-2c04-40d1-aa6a-fbb3fba6079d",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "db8cc92c-96d3-4955-a9cf-b958b3647984",
+              "name": "URL",
+              "value": "={{ $json.data.metadata.url }}",
+              "type": "string"
+            },
+            {
+              "id": "03b76a3d-2d10-4dc5-ad5b-c5f737db236c",
+              "name": "Name",
+              "value": "={{ $json.data.metadata.title }}",
+              "type": "string"
+            },
+            {
+              "id": "3bd6afdf-10fc-4ce9-a217-236207ae70d8",
+              "name": "Email",
+              "value": "={{ $json.data.metadata.description }}",
+              "type": "string"
+            },
+            {
+              "id": "da7d052d-8807-4d3b-a8d8-f7fa438df7b8",
+              "name": "Phone",
+              "value": "={{ $json.data.metadata.description }}",
+              "type": "string"
+            },
+            {
+              "id": "320a4638-278c-4c6f-8cfb-2bd02e52f6bf",
+              "name": "Address",
+              "value": "={{ $json.data.metadata.description }}",
+              "type": "string"
+            },
+            {
+              "id": "1f7c1bd5-972b-4c97-bb33-5ec2dc5cf6e2",
+              "name": "Website",
+              "value": "={{ $json.data.metadata.description }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1536,
+        192
+      ],
+      "id": "e0983779-4fed-450c-9a86-b708ec275e5f",
+      "name": "Get content2"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        800,
+        96
+      ],
+      "id": "60512734-67c5-448c-a70a-c546c028233a",
+      "name": "Limit1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.firecrawl.dev/v1/scrape",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"url\": \"{{ $json.URL }}\",\n  \"formats\": [\n    \"markdown\",\n    \"html\"\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1200,
+        208
+      ],
+      "id": "94d23b24-e2be-4600-87b7-368ce5be80cb",
+      "name": "Scrape an URL with FireCrawl1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "a73HZ3xV7gKmLz34",
+          "name": "firecrawl"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/10wG5E-6K_7ugg9j0x9NrbDOq5GvAsP_p0BdwAKFXsJY/edit?usp=sharing",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Trang tính1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10wG5E-6K_7ugg9j0x9NrbDOq5GvAsP_p0BdwAKFXsJY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "URL": "={{ $json.URL }}",
+            "Name": "={{ $json.Name }}",
+            "Email": "={{ $json.Email }}",
+            "Phone": "={{ $json.Phone }}",
+            "Address": "={{ $json.Address }}",
+            "Website": "={{ $json.Website }}",
+            "status": "scraped"
+          },
+          "matchingColumns": [
+            "URL"
+          ],
+          "schema": [
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1984,
+        192
+      ],
+      "id": "6ca53cfc-18d4-46ed-999f-62daeb135104",
+      "name": "Update to Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pcmLvHOcq4Us2l51",
+          "name": "Google Sheets account 11"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/10wG5E-6K_7ugg9j0x9NrbDOq5GvAsP_p0BdwAKFXsJY/edit?usp=sharing",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Trang tính1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10wG5E-6K_7ugg9j0x9NrbDOq5GvAsP_p0BdwAKFXsJY/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "status",
+              "lookupValue": "unscraped"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        592,
+        96
+      ],
+      "id": "4c285ebd-946f-4611-942d-f1a8de8b7f44",
+      "name": "Get URLs to scrape",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pcmLvHOcq4Us2l51",
+          "name": "Google Sheets account 11"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.INPUT }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        864,
+        -176
+      ],
+      "id": "0aba1beb-7263-4282-8d37-98569296302f",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "Links",
+              "cssSelector": "div.w-100.h-auto.shadow.rounded-3.bg-white.p-2.mb-3 a[href]",
+              "returnValue": "attribute",
+              "returnArray": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        1072,
+        -176
+      ],
+      "id": "bc6738bd-6e77-4903-9384-7b807185a7c3",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "10wG5E-6K_7ugg9j0x9NrbDOq5GvAsP_p0BdwAKFXsJY",
+          "mode": "list",
+          "cachedResultName": "n8n-data",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10wG5E-6K_7ugg9j0x9NrbDOq5GvAsP_p0BdwAKFXsJY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Trang tính1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/10wG5E-6K_7ugg9j0x9NrbDOq5GvAsP_p0BdwAKFXsJY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "URL": "={{ $json.URL }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Phone",
+              "displayName": "Phone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Address",
+              "displayName": "Address",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "status",
+              "displayName": "status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        1504,
+        -176
+      ],
+      "id": "044c4c78-76f9-4bb1-a489-35c1640122e5",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pcmLvHOcq4Us2l51",
+          "name": "Google Sheets account 11"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1oHosdKTNmaaSphLMx7Rsur3gw3-6qqPNP_vWl3lFJn0",
+          "mode": "list",
+          "cachedResultName": "INPUT DATA",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHosdKTNmaaSphLMx7Rsur3gw3-6qqPNP_vWl3lFJn0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Trang tính1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1oHosdKTNmaaSphLMx7Rsur3gw3-6qqPNP_vWl3lFJn0/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.6,
+      "position": [
+        656,
+        -176
+      ],
+      "id": "cc29a606-dbb2-4371-85db-8e4356695ac6",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "pcmLvHOcq4Us2l51",
+          "name": "Google Sheets account 11"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        -176
+      ],
+      "id": "f795a0ef-b116-42f2-8c14-d8ddab2c53dc",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const links = $input.first().json.Links || [];\n\nconst validUrls = [...new Set(\n  links\n    .filter(item => item && typeof item === 'object' && typeof item.href === 'string')\n    .map(item => item.href.trim())\n    .filter(href =>\n      href.startsWith('http') && href.endsWith('.html')\n    )\n)];\n\nreturn validUrls.map(url => ({ json: { URL: url } }));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1296,
+        -176
+      ],
+      "id": "e2ca7287-2d18-431a-b2ff-878b5027ea17",
+      "name": "extract url"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1024,
+        96
+      ],
+      "id": "edcc34ba-280f-404f-9005-5e246fe898a8",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2192,
+        192
+      ],
+      "id": "6daec7fe-7bc4-4f21-9c7b-f282245d7846",
+      "name": "Wait",
+      "webhookId": "0107e532-4c04-4963-9b76-4c6fd02558eb"
+    },
+    {
+      "parameters": {
+        "content": "## get url list of companies",
+        "height": 288,
+        "width": 1504
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        320,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "166d3b16-8032-4854-a2c9-deebd2851b11",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "jsCode": "var items = $input.all();\nreturn items.map(function(item) {\n  var s = item.json.Email || item.json.Address || item.json.Phone || item.json.Website || \"\";\n  var address = \"\";\n  var phone = \"\";\n  var email = \"\";\n  var website = \"\";\n  \n  var addressStart = s.indexOf(\"Địa chỉ:\");\n  var addressEnd = s.indexOf(\", Điện thoại:\");\n  if (addressStart !== -1 && addressEnd !== -1) {\n    address = s.substring(addressStart + 8, addressEnd).trim();\n  }\n  \n  var phoneStart = s.indexOf(\"Điện thoại:\");\n  var phoneEnd = s.indexOf(\",fax:\");\n  if (phoneStart !== -1 && phoneEnd !== -1) {\n    phone = s.substring(phoneStart + 11, phoneEnd).trim();\n  }\n  \n  var emailStart = s.indexOf(\"Email:\");\n  var emailEnd = s.indexOf(\", website:\");\n  if (emailStart !== -1 && emailEnd !== -1) {\n    email = s.substring(emailStart + 6, emailEnd).trim();\n  }\n  \n  // Tách Website từ sau \"website:\"\n  var websiteStart = s.indexOf(\"website:\");\n  if (websiteStart !== -1) {\n    website = s.substring(websiteStart + 8).trim();\n  }\n  \n  return {\n    json: {\n      URL: item.json.URL || \"\",\n      Name: item.json.Name || \"\",\n      Email: email,\n      Phone: phone,\n      Address: address,     \n      Website: website\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        192
+      ],
+      "id": "fd8b7585-e985-4bad-bcf1-11113e07d35a",
+      "name": "clean info"
+    },
+    {
+      "parameters": {
+        "content": "## enrich list ",
+        "height": 464,
+        "width": 1808,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        304,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "043920fb-6f15-47d0-8eb7-29ebcdb9398e",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Get URLs to scrape",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get content2": {
+      "main": [
+        [
+          {
+            "node": "clean info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape an URL with FireCrawl1": {
+      "main": [
+        [
+          {
+            "node": "Get content2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get URLs to scrape": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "extract url",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract url": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Scrape an URL with FireCrawl1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update to Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "clean info": {
+      "main": [
+        [
+          {
+            "node": "Update to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ac80dda8-8634-4fc8-ab9d-62c227341355",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "558d88703fb65b2d0e44613bc35916258b0f0bf983c5d4730c00c424b77ca36a"
+  },
+  "id": "WbjhHzv1LT9vJ6rq",
+  "tags": [
+    {
+      "createdAt": "2025-08-03T05:45:48.138Z",
+      "updatedAt": "2025-08-03T05:45:48.138Z",
+      "id": "SjyCfQ5pArTIzbC3",
+      "name": "Tutorial"
+    }
+  ]
+}
